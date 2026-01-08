@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ seccio.nom }} - Tenda Helena{% endblock %}
+
+{% block contingut %}
+  {% set imatges = {
+    'Pantalons': asset('imgs/productes/pantalons.jpeg'),
+    'Camisa': asset('imgs/productes/camisa.jpeg'),
+    'Jersei': asset('imgs/productes/jersey.jpg'),
+    'Jaqueta': asset('imgs/productes/jaqueta.jpeg'),
+    'Sabatilles': asset('imgs/productes/sabatilles.jpg'),
+    'Botes': asset('imgs/productes/botas.jpeg'),
+    'Sandàlies': asset('imgs/productes/sandalies.webp'),
+    'Bolso': asset('imgs/productes/bolso.jpeg'),
+    'Cinturó': asset('imgs/productes/cinturo.jpeg'),
+    'Sombrero': asset('imgs/productes/sombrero.jpg'),
+    'Pilota': asset('imgs/productes/pilota.jpeg'),
+    'Raqueta': asset('imgs/productes/raqueta.jpg'),
+    'Bicicleta': asset('imgs/productes/bicicleta.avif')
+  } %}
+  {# Capçalera de la secció #}
+  <div class="row mb-5">
+    <div class="col-md-8">
+      <h1 class="display-4">{{ seccio.nom }}</h1>
+      <p class="lead text-muted">{{ seccio.descripcio }}</p>
+      <ul class="list-unstyled">
+        <li><strong>Articles disponibles:</strong> {{ seccio.articles|length }}</li>
+      </ul>
+    </div>
+  </div>
+
+  {# Grid de targetes d'articles #}
+  <h2 class="mb-4">Articles de {{ seccio.nom }}</h2>
+  <div class="row">
+    {% for article in seccio.articles %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ article }}</h5>
+                  {% set imatge = imatges[article] is defined ? imatges[article] : 'https://placehold.co/200x150?text=' ~ article %}
+                <img src="{{ imatge }}"
+                  alt="{{ article }}"
+                  class="img-fluid rounded my-3"
+                  onerror="this.onerror=null; this.src='https://placehold.co/200x150?text={{ article|e }}';">
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <a href="{{ path('seccio_llistat') }}" class="btn btn-secondary mt-3">
+    ← Tornar a seccions
+  </a>
+{% endblock %}
