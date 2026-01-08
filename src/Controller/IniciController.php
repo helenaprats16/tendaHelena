@@ -9,7 +9,7 @@ class IniciController
     #[Route('/', name: 'inici', methods: ['GET'])]
     public function inici(): Response
     {
-        return new Response('Benvingut/da al web de contactes');
+        return new Response('Projecte Gestió Tenda de Helena Prats');
     }
 }
 ?>
