@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SeccioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SeccioRepository::class)]
@@ -22,8 +24,19 @@ class Seccio
     #[ORM\Column]
     private ?int $any = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $imatge = null;
+
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'seccio')]
+    private Collection $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,9 +84,39 @@ class Seccio
         return $this->imatge;
     }
 
-    public function setImatge(string $imatge): static
+    public function setImatge(?string $imatge): static
     {
         $this->imatge = $imatge;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): static
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setSeccio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getSeccio() === $this) {
+                $article->setSeccio(null);
+            }
+        }
 
         return $this;
     }

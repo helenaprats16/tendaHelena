@@ -3,6 +3,7 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Seccio;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,36 +13,36 @@ class SeccioController extends AbstractController
 {
 
 
-    private $seccions = array(
-        [
-            "codi" => 1,
-            "nom" => "Roba",
-            "descripcio" => "Secció de roba",
-            "any" => "2026",
-            "articles" => array("Pantalons", "Camisa", "Jersei", "Jaqueta")
-        ],
-        [
-            "codi" => 2,
-            "nom" => "Calçat",
-            "descripcio" => "Secció de calçat",
-            "any" => "2025",
-            "articles" => array("Sabatilles", "Botes", "Sandàlies")
-        ],
-        [
-            "codi" => 3,
-            "nom" => "Accessoris",
-            "descripcio" => "Secció d'accessoris",
-            "any" => "2024",
-            "articles" => array("Bolso", "Cinturó", "Sombrero")
-        ],
-        [
-            "codi" => 4,
-            "nom" => "Esports",
-            "descripcio" => "Secció d'esports",
-            "any" => "2023",
-            "articles" => array("Pilota", "Raqueta", "Bicicleta")
-        ]
-    );
+    // private $seccions = array(
+    //     [
+    //         "codi" => 1,
+    //         "nom" => "Roba",
+    //         "descripcio" => "Secció de roba",
+    //         "any" => "2026",
+    //         "articles" => array("Pantalons", "Camisa", "Jersei", "Jaqueta")
+    //     ],
+    //     [
+    //         "codi" => 2,
+    //         "nom" => "Calçat",
+    //         "descripcio" => "Secció de calçat",
+    //         "any" => "2025",
+    //         "articles" => array("Sabatilles", "Botes", "Sandàlies")
+    //     ],
+    //     [
+    //         "codi" => 3,
+    //         "nom" => "Accessoris",
+    //         "descripcio" => "Secció d'accessoris",
+    //         "any" => "2024",
+    //         "articles" => array("Bolso", "Cinturó", "Sombrero")
+    //     ],
+    //     [
+    //         "codi" => 4,
+    //         "nom" => "Esports",
+    //         "descripcio" => "Secció d'esports",
+    //         "any" => "2023",
+    //         "articles" => array("Pilota", "Raqueta", "Bicicleta")
+    //     ]
+    // );
 
     public function __construct(private EntityManagerInterface $gestor)
     {
@@ -54,8 +55,10 @@ class SeccioController extends AbstractController
     #[Route('', name: 'llistat', methods: ['GET'])]
     public function llistat(): Response
     {
+        $seccions = $this->repositori->findAll();
+
         return $this->render('seccio/llistat.html.twig', [
-            'seccions' => $this->seccions
+            'seccions' => $seccions
         ]);
     }
 
@@ -63,6 +66,7 @@ class SeccioController extends AbstractController
     #[Route('/afegir', name: 'afegir', methods: ['GET','POST'])]
     public function afegir(): Response
     {
+        try {
         $seccio = new Seccio();
         $seccio->setNom("Bisuteria");
         $seccio->setDescripcio("Secció de bisuteria");
@@ -72,12 +76,20 @@ class SeccioController extends AbstractController
         // Indiquem que volem guardar aquest objecte
         $this->gestor->persist($seccio);
 
-
         // S’executa la inserció
         $this->gestor->flush();
 
-         return new Response("Seccio " . $seccio->getId() . " creada.");
+         return $this -> render('seccio/afegir.html.twig', [
+            'message' => "Se ha creat la secció amb èxit",
+            'details' => 'Secció ' . $seccio->getId() . ' creada correctament'
+         ]);
 
+        } catch (Exception $e) {
+            return $this->render('seccio/error.html.twig', [
+            'message' => 'Error al crear les seccions',
+            'details' => $e ->getMessage()
+        ]);
+        }
     }
 
 
@@ -87,20 +99,12 @@ class SeccioController extends AbstractController
     public function detall(int $codi): Response
     {
         // Buscar la secció amb el codi especificat
-        $resultat = array_filter(
-            $this->seccions,
-            function ($seccio) use ($codi) {
-                return $seccio['codi'] == $codi;
-            }
-        );
+        $seccio = $this->repositori->find($codi);
 
         // Si no s'ha trobat la secció
-        if (!$resultat) {
-            return new Response('No s\'ha trobat la secció amb codi: ' . $codi, 404);
+        if (!$seccio) {
+        throw $this->createNotFoundException('Secció no trobada');
         }
-
-        // Extreu la secció trobada
-        $seccio = array_shift($resultat);
 
         // Renderitzar la plantilla seccio/detall.html.twig
         return $this->render('seccio/detall.html.twig', [

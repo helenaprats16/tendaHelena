@@ -10,19 +10,18 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link active" href="#">Inici</a>
-          <a href="{{ path('seccio_afegir') }}" class="nav-link active"> Afegir </a>
+          <a href="{{ path('seccio_afegir') }}" class="nav-link active"> Afegir Seccio </a>
+          <a href="{{ path('article_crear') }}" class="nav-link active"> Crear Article </a>
 
         </li>
         
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="{{ path('seccio_llistat') }}}" role="button" data-bs-toggle="dropdown">
             Seccions
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('seccio_detall', {codi:1}) }}">Roba</a></li>
-            <li><a class="dropdown-item" href="{{ path('seccio_detall', {codi:2}) }}">Calçat</a></li>
-            <li><a class="dropdown-item" href="{{ path('seccio_detall', {codi:3}) }}">Accessoris</a></li>
-            <li><a class="dropdown-item" href="{{ path('seccio_detall', {codi:4}) }}">Esports</a></li>
+              <li><a class="dropdown-item" href="{{ path('seccio_detall', {'id':seccions.id}) }}">{{ seccions.nom }}</a></li>
+        
           </ul>
         </li>
         

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Article{% endblock %}
+
+{% block contingut %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Crear article</h4>
+                </div>
+
+                <div class="card-body">
+                        <p><strong>Nom:</strong> {{ article.nom }}</p>
+                    <hr>
+                        <p><strong>Detall:</strong> {{ detall }}</p>
+                        <p class="mt-2">{{ message }}</p>
+                </div>
+
+                <div class="card-body">
+                        <p><strong>Nom:</strong> {{ article2.nom }}</p>
+                    <hr>
+                        <p><strong>Detall:</strong> {{ detall }}</p>
+                        <p class="mt-2">{{ message }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

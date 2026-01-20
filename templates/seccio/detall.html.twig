@@ -3,7 +3,7 @@
 {% block title %}{{ seccio.nom }} - Tenda Helena{% endblock %}
 
 {% block contingut %}
-  {% set imatges = {
+  {# {% set imatges = {
     'Pantalons': asset('imgs/productes/pantalons.jpeg'),
     'Camisa': asset('imgs/productes/camisa.jpeg'),
     'Jersei': asset('imgs/productes/jersey.jpg'),
@@ -17,7 +17,7 @@
     'Pilota': asset('imgs/productes/pilota.jpeg'),
     'Raqueta': asset('imgs/productes/raqueta.jpg'),
     'Bicicleta': asset('imgs/productes/bicicleta.avif')
-  } %}
+  } %} #}
   {# Capçalera de la secció #}
   <div class="row mb-5">
     <div class="col-md-8">
@@ -36,12 +36,11 @@
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
           <div class="card-body text-center">
-            <h5 class="card-title">{{ article }}</h5>
-                  {% set imatge = imatges[article] is defined ? imatges[article] : 'https://placehold.co/200x150?text=' ~ article %}
-                <img src="{{ imatge }}"
-                  alt="{{ article }}"
-                  class="img-fluid rounded my-3"
-                  onerror="this.onerror=null; this.src='https://placehold.co/200x150?text={{ article|e }}';">
+            <h5 class="card-title">{{ article.nom }}</h5>
+            <p><strong>Preu: </strong>{{ article.preu }}</p>
+                <img src="{{ article.imatge }}"
+                  alt="{{ article.nom }}"
+                  class="img-fluid rounded my-3">
           </div>
         </div>
       </div>
