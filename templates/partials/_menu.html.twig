@@ -12,20 +12,27 @@
           <a class="nav-link active" href="#">Inici</a>
           <a href="{{ path('seccio_afegir') }}" class="nav-link active"> Afegir Seccio </a>
           <a href="{{ path('article_crear') }}" class="nav-link active"> Crear Article </a>
-
         </li>
         
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="{{ path('seccio_llistat') }}}" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="{{ path('seccio_llistat') }}" role="button" data-bs-toggle="dropdown">
             Seccions
           </a>
           <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ path('seccio_detall', {'id':seccions.id}) }}">{{ seccions.nom }}</a></li>
-        
+            {% for seccio in seccions %}
+              <li>
+                <a class="dropdown-item" href="{{ path('seccio_detall', {'codi': seccio.id}) }}">
+                  {{ seccio.nom }}
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <span class="dropdown-item text-muted">No hi ha seccions</span>
+              </li>
+            {% endfor %}
           </ul>
         </li>
         
-      
       </ul>
     </div>
   </div>

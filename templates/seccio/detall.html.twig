@@ -38,9 +38,10 @@
           <div class="card-body text-center">
             <h5 class="card-title">{{ article.nom }}</h5>
             <p><strong>Preu: </strong>{{ article.preu }}</p>
-                <img src="{{ article.imatge }}"
-                  alt="{{ article.nom }}"
-                  class="img-fluid rounded my-3">
+               <img src="{{ asset('imgs/' ~ article.imatge) }}"
+                alt="{{ article.nom }}"
+              class="img-fluid rounded my-3">
+
           </div>
         </div>
       </div>

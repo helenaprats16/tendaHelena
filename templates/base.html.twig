@@ -16,7 +16,8 @@
   <body>
 
     {# Incloem el menú com una plantilla parcial #}
-    {% include 'partials/_menu.html.twig' %}
+    {{ render(controller('App\\Controller\\SeccioController::menu')) }}
+
 
     <main class="container my-4">
         {% block contingut %}

@@ -48,6 +48,16 @@ class SeccioController extends AbstractController
     {
         $this->repositori = $this->gestor->getRepository(Seccio::class);
     }
+    
+    #[Route('/menu', name: 'menu')]
+    public function menu(): Response
+    {
+        $seccions = $this->repositori->findAll();
+
+        return $this->render('partials/_menu.html.twig', [
+            'seccions' => $seccions
+        ]);
+    }
 
 
 

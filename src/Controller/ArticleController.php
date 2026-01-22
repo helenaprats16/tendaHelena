@@ -34,14 +34,14 @@ class ArticleController extends AbstractController
             $article1->setNom("collar");
             $article1->setPreu(15.4);
             $article1->setStock(13);
-            $article1->setImatge(null);
+            $article1->setImatge("img.jpg");
             $article1->setSeccio($seccioRoba);
 
              $article2 = new Article();
             $article2->setNom("Pendientes");
             $article2->setPreu(45.20);
             $article2->setStock(3);
-            $article2->setImatge(null);
+            $article2->setImatge("img2.jpg");
             $article2->setSeccio($seccioRoba);
             // Indiquem que volem guardar aquest objecte
             $this->gestor->persist($article1);
